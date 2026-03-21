@@ -1,6 +1,6 @@
 import { useState, useEffect, type FC } from 'react';
 import { motion, AnimatePresence, useSpring } from 'motion/react';
-import { ArrowUpRight, Menu, X, ChevronDown, Twitter, Linkedin, Dribbble, Mail, Phone, Search, BarChart2, FileText, Package, Ship, PenTool, Layout, Cpu, Zap, Users, Briefcase, Layers, MessageSquare, Sparkles, Trello } from 'lucide-react';
+import { ArrowUpRight, Menu, X, ChevronDown, Twitter, Linkedin, Dribbble, Mail, Phone, Search, BarChart2, FileText, Package, Ship, PenTool, Layout, Cpu, Zap, Users, Briefcase, Layers, MessageSquare, Sparkles, Trello, TrendingUp } from 'lucide-react';
 
 // --- Types & Data ---
 
@@ -12,6 +12,7 @@ type ProjectSection = {
   timelineItems?: { step: string; title: string; description: string; icon: any }[];
   highlight?: string;
   image?: string;
+  stats?: { value: string; label: string; subtext?: string; icon?: any }[];
 };
 
 type Project = {
@@ -74,11 +75,11 @@ const projects: Project[] = [
       {
         title: "Scene 4 — The Impact",
         content: "The results weren’t subtle.",
-        items: [
-          "📈 +40% increase in task completion efficiency",
-          "⚡ +50% faster booking creation via TMS integration",
-          "🎯 Reduced onboarding friction for new users",
-          "🔄 Stronger system consistency across the platform"
+        stats: [
+          { value: "+40%", label: "Task Efficiency", subtext: "increase in completion", icon: TrendingUp },
+          { value: "+50%", label: "Faster Sync", subtext: "via TMS integration", icon: Zap },
+          { value: "Minimal", label: "Friction", subtext: "for new user onboarding", icon: Users },
+          { value: "Unified", label: "Consistency", subtext: "across the platform", icon: Layers }
         ]
       },
       {
@@ -383,8 +384,10 @@ const Navbar = () => {
             </a>
           ))}
           <a
-            href="https://drive.google.com/uc?export=download&id=1NYNGvvaH1xLprt30l1Q9eDL0ei8ZMXLE"
+            href="https://drive.google.com/uc?export=download&id=18331f_DbX3aSGTk1gAc5f3jYJ8B3m0SY"
             className="px-6 py-2 border border-white/20 rounded-full text-sm font-medium hover:bg-white hover:text-black transition-all duration-300"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Download Resume
           </a>
@@ -849,6 +852,19 @@ const ProjectDetailsModal = ({ project, onClose }: { project: Project; onClose: 
                        </li>
                      ))}
                    </ul>
+                 )}
+
+                 {section.stats && (
+                   <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                     {section.stats.map((stat, i) => (
+                       <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center text-center group hover:bg-white/10 transition-colors shadow-[0_4px_24px_rgba(0,0,0,0.2)]">
+                         {stat.icon && <stat.icon className="w-8 h-8 text-[var(--color-accent)] mb-4 group-hover:scale-110 transition-transform" />}
+                         <span className="text-4xl lg:text-5xl font-display font-bold text-white mb-2 leading-none">{stat.value}</span>
+                         <span className="text-xs md:text-sm text-white/80 font-medium uppercase tracking-wider mb-1 mt-2">{stat.label}</span>
+                         {stat.subtext && <span className="text-[10px] md:text-xs text-white/40 leading-tight block max-w-[140px]">{stat.subtext}</span>}
+                       </div>
+                     ))}
+                   </div>
                  )}
                  
                  {section.timelineItems && (
